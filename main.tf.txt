@@ -1,0 +1,14 @@
+# main.tf
+
+provider "aws" {
+  region = "ap-south-2"
+}
+
+resource "aws_instance" "example" {
+  ami           = "ami-0c55b159cbfafe1f0"   # Ubuntu 20.04 LTS AMI (update for your region)
+  instance_type = "t2.micro"
+
+  tags = {
+    Name = "Terraform-Example"
+  }
+}
