@@ -1,0 +1,48 @@
+name: App deploy
+
+on:
+  push:
+    branches: [develop, main]
+  workflow_call:
+    inputs:
+      environment:
+        required: false
+        type: string
+        default: dev
+      runner:
+        required: false
+        type: string
+        default: dev-linux-arm
+      image-tag:
+        required: false
+        type: string
+        default: latest
+      api-url:
+        required: false
+        type: string
+        default: https://dev-api.wellnestgroup.life
+      frontend-origin:
+        required: false
+        type: string
+        default: https://dev.wellnestgroup.life
+      backend-image-name:
+        required: false
+        type: string
+        default: wellnest-backend
+      frontend-image-name:
+        required: false
+        type: string
+        default: wellnest-frontend
+
+jobs:
+  deploy:
+    uses: my-org/platform-workflows/.github/workflows/build.yaml@main
+    with:
+      environment: ${{ inputs.environment || 'dev' }}
+      runner: ${{ inputs.runner || 'dev-linux-arm' }}
+      image-tag: ${{ inputs.image-tag || github.sha }}
+      api-url: ${{ inputs.api-url || 'https://dev-api.wellnestgroup.life' }}
+      frontend-origin: ${{ inputs.frontend-origin || 'https://dev.wellnestgroup.life' }}
+      backend-image-name: ${{ inputs.backend-image-name || 'wellnest-backend' }}
+      frontend-image-name: ${{ inputs.frontend-image-name || 'wellnest-frontend' }}
+    secrets: inherit
